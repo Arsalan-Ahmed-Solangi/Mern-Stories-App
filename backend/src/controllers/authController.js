@@ -21,7 +21,7 @@ exports.signIn = async (req, res) => {
 
         }
 
-        console.log(process.env.JWT_TOKEN);
+      
         const token = jwt.sign({ id: user._id, Name: user.Name }, process.env.JWT_TOKEN,{ expiresIn: '1d' });
         
          const { password, ...others } = user._doc;

@@ -136,4 +136,54 @@ exports.deleteStory = async (req, res) => {
 
     }
 
-}   
+}  
+
+//****likeStory******//
+exports.likeStory = async (req, res) => {
+
+
+    try {
+
+        if (!req.user.id) return res.status(400).json({success:false,message:"Login First!"});
+
+        const { id } = req.params;
+
+
+        if (!mongoose.Types.ObjectId.isValid(id)) {
+            return res.status(400).json({ success: false, message: "No Story found by Id!" })
+        }
+
+        const story = await Story.findById(id);
+
+        if (!story) {
+            return res.status(404).json({ success: false, message: "Story not found!" });
+        }
+        
+
+        //*****CheckUserLikedStoryOrNot******//
+        const isLiked = story.likes.includes(req.user.id);
+
+
+        //****Not Liked ***//
+    
+        if(!isLiked){
+            story.likes.push(req.user.id);
+           
+        }else{
+            story.likes = story.likes.filter((index) => index !== String(req.user.id));
+            
+        }
+        
+        const message = isLiked ? "You disliked the story!" : "You liked the story!";
+
+        await story.save()
+        return res.status(200).json({success:true,message:message,likes:story.likes})
+
+       
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json({ success: false, message: "Something went wrong!", error: error })
+
+    }
+
+}  

@@ -3,9 +3,9 @@ const secret = process.env.JWT_TOKEN
 
 
 const authToken = (req, res, next) => {
-    console.log(secret);
+   
     const token = req.headers['authorization'].split(" ")[1];
-    console.log(token)
+   
     if (!token) {
 
         return res.status(401).json({

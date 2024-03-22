@@ -1,11 +1,11 @@
 const jwt = require('jsonwebtoken');
-const secret = process.env.JWT_TOKEN || "StoriesApp";
+const secret = process.env.JWT_TOKEN 
 
 
-const authToken = (req, req, next) => {
-
-    const token = req.headers['authorization'];
-
+const authToken = (req, res, next) => {
+    console.log(secret);
+    const token = req.headers['authorization'].split(" ")[1];
+    console.log(token)
     if (!token) {
 
         return res.status(401).json({
@@ -14,7 +14,8 @@ const authToken = (req, req, next) => {
         });
     }
 
-    jwt.verify(token, secretKey, (err, user) => {
+    jwt.verify(token, secret, (err, user) => {
+        
         if (err) {
             if (err.name === 'TokenExpiredError') {
                 return res.status(401).json({

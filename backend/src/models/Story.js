@@ -5,7 +5,9 @@ const storeSchema = mongoose.Schema({
 
     title: {
         type: String,
-        required: true
+        
+        required: true,
+        unique:true,
     },
     message: {
         type: String,
@@ -23,6 +25,10 @@ const storeSchema = mongoose.Schema({
     likes: {
         type: [String],
         default: [],
+    },
+    AddedBy:{
+        type:String,
+        required:true,
     },
     createdAt: {
         type: Date,

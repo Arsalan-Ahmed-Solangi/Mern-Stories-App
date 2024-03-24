@@ -7,6 +7,8 @@ const bodyParser = require('body-parser');
 const app = express();
 const dotenv = require('dotenv');
 dotenv.config()
+
+
 const port = process.env.PORT || 6000;
 
 
@@ -14,6 +16,8 @@ const port = process.env.PORT || 6000;
 connectDB();
 
 //***SendingRequest*****//
+app.use(cors());
+
 app.use(bodyParser.json({ limit: "30mb", extended: true }))
 app.use(bodyParser.urlencoded({ limit: "30mb", extended: true }))
 
